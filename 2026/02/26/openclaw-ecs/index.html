@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://weifenghuang.github.io">
-  <title>在阿里云 2G ECS 上安装并稳定运行 OpenClaw：我踩坑后的最短路径 | Breeze的小站</title>
+  <title>我的云上 ECS 龙虾之旅：国内 ECS 玩 OpenClaw 的避坑与技巧 | Breeze的小站</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文不是复述官方文档，而是把我这段时间在阿里云 ECS（2G 内存为主）上折腾 OpenClaw 的踩坑，整理成一条能跑通、能自救的最短路径。细节缺失的地方我会标 `TODO`，我们后面再补。">
+  <meta name="description" content="本文不是保姆级安装教程，看到有人说在ecs上面安装openclaw是地狱级难度，如果是国内的ecs更是地狱级（网络问题），所以我把我这段时间在阿里云 ECS（2G 内存为主）上折腾 OpenClaw 的踩坑整理成一些经验；如果你没有安装的问题，建议直接跳到最后开想法即可；另外其实也建议为了降低安装难度，直接电脑安装（最好独立的）， 或者直接买云服务提供...">
 <meta name="keywords" content="技术文章">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在阿里云 2G ECS 上安装并稳定运行 OpenClaw：我踩坑后的最短路径">
+<meta property="og:title" content="我的云上 ECS 龙虾之旅：国内 ECS 玩 OpenClaw 的避坑与技巧">
 <meta property="og:url" content="https://weifenghuang.github.io/2026/02/26/openclaw-ecs/index.html">
 <meta property="og:site_name" content="Breeze的小站">
-<meta property="og:description" content="本文不是复述官方文档，而是把我这段时间在阿里云 ECS（2G 内存为主）上折腾 OpenClaw 的踩坑，整理成一条能跑通、能自救的最短路径。细节缺失的地方我会标 `TODO`，我们后面再补。">
+<meta property="og:description" content="本文不是保姆级安装教程，看到有人说在ecs上面安装openclaw是地狱级难度，如果是国内的ecs更是地狱级（网络问题），所以我把我这段时间在阿里云 ECS（2G 内存为主）上折腾 OpenClaw 的踩坑整理成一些经验；如果你没有安装的问题，建议直接跳到最后开想法即可；另外其实也建议为了降低安装难度，直接电脑安装（最好独立的）， 或者直接买云服务提供...">
 <meta property="og:updated_time" content="2026-02-26T00:00:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在阿里云 2G ECS 上安装并稳定运行 OpenClaw：我踩坑后的最短路径">
-<meta name="twitter:description" content="本文不是复述官方文档，而是把我这段时间在阿里云 ECS（2G 内存为主）上折腾 OpenClaw 的踩坑，整理成一条能跑通、能自救的最短路径。细节缺失的地方我会标 `TODO`，我们后面再补。">
+<meta name="twitter:title" content="我的云上 ECS 龙虾之旅：国内 ECS 玩 OpenClaw 的避坑与技巧">
+<meta name="twitter:description" content="本文不是保姆级安装教程，看到有人说在ecs上面安装openclaw是地狱级难度，如果是国内的ecs更是地狱级（网络问题），所以我把我这段时间在阿里云 ECS（2G 内存为主）上折腾 OpenClaw 的踩坑整理成一些经验；如果你没有安装的问题，建议直接跳到最后开想法即可；另外其实也建议为了降低安装难度，直接电脑安装（最好独立的）， 或者直接买云服务提供...">
   
     <link rel="alternative" href="/atom.xml" title="Breeze的小站" type="application/atom+xml">
   
@@ -163,7 +163,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      在阿里云 2G ECS 上安装并稳定运行 OpenClaw：我踩坑后的最短路径
+      我的云上 ECS 龙虾之旅：国内 ECS 玩 OpenClaw 的避坑与技巧
     </h1>
   
 
@@ -176,68 +176,49 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>TODO（写正文前确认）：主线 OS（Ubuntu 22.04 / Alibaba Cloud Linux 3）、安装路线（npm / curl / release）、访问策略（仅 SSH / 需要公网）、最低规格是否覆盖 1C1G。</p>
-</blockquote>
-<p>本文不是复述官方文档，而是把我这段时间在阿里云 ECS（2G 内存为主）上折腾 OpenClaw 的踩坑，整理成一条能跑通、能自救的最短路径。细节缺失的地方我会标 <code>TODO</code>，我们后面再补。</p>
+        <p>本文不是保姆级安装教程，看到有人说在ecs上面安装openclaw是地狱级难度，如果是国内的ecs更是地狱级（网络问题），所以我把我这段时间在阿里云 ECS（2G 内存为主）上折腾 OpenClaw 的踩坑整理成一些经验；如果你没有安装的问题，建议直接跳到最后开想法即可；另外其实也建议为了降低安装难度，直接电脑安装（最好独立的）， 或者直接买云服务提供好的openclaw镜像，或者用国外vps；</p>
 <hr>
-<h2>1) 背景：为什么我把 OpenClaw 放到云上</h2>
+<h2>1 背景：为什么我把 OpenClaw 放到云上</h2>
 <p>我想玩 OpenClaw 的原因很简单：AI 这波进展太快了，很多东西看起来很热闹，但本质更像“玩具”——可能一周就没消息了。反过来，如果一个东西<strong>一个月了还在被大量讨论</strong>，而且生态越长越像样，那它大概率就不是昙花一现，是真的值得下场玩一玩。</p>
 <p>OpenClaw 给我的感觉就是后者：它的生态已经不太像“玩具”了，很多事情确实能交给它跑。但我一直有两个顾虑：</p>
 <ul>
-<li><strong>本机安全</strong>：不太想把一个能跑插件/能连外部服务的 agent 直接装在日常电脑上。</li>
-<li><strong>现实条件</strong>：我手上刚好有台阿里云 ECS，而且通常是 <strong>2G 内存</strong>这种“最容易踩坑”的规格——官方教程照着装，确实有概率把机器直接装到 OOM 卡死。</li>
+<li><strong>本机安全</strong>：不太想把这么一个高风险的agent放在我本地，而且还不是我自己开发的。还是不信任的问题。</li>
+<li><strong>现实条件</strong>：我手上刚好有台阿里云 ECS，而且通常是 <strong>2G 内存</strong>这种“最容易踩坑”的规格——官方教程照着装，直接把2g内存干重启。另外在openclaw刚发布的时候还只是运行卡死，现在直接安装卡死了</li>
 </ul>
 <p>所以这篇文章的目标是：</p>
 <ul>
 <li>你按这篇能在 2G ECS 上 <strong>装上、跑通、稳定起来</strong>；</li>
-<li>你知道 <strong>哪里容易卡死</strong>、怎么避坑、怎么排错；</li>
-<li>你把 agent 放在云上时，至少做到一些基本的安全边界（别把自己和机器一起坑了）。</li>
+<li>你知道 <strong>哪里容易卡死</strong>、怎么避坑、怎么排错</li>
+<li>分享一下我自己使用下来的一些心得；</li>
 </ul>
-<blockquote>
-<p>安全边界（先说清楚）：本文默认你主要通过 <strong>SSH</strong> 管理服务器；除非你非常清楚自己在做什么，否则不要随便把管理端口/控制面暴露到公网。<br>TODO：补一段“安全组/端口最小开放”的具体写法（按你的访问策略定稿）。</p>
-</blockquote>
 <hr>
-<h2>2) 安装步骤：最短路径（先能装、能跑、能自救）</h2>
-<p>这一节我按“先救命、再安装、再增强”的顺序写。因为 2G 机器一旦卡死，你最怕的不是“装不上”，而是“装到一半死了，自己还进不去修”。</p>
-<p>我这里先说清楚一个写法上的取舍：<strong>命令行不是让你背的</strong>。在低内存 ECS 上，我更推荐你把这些“杂活”交给 Codex / Claude Code（CC）/ OpenCode 去做（它们在服务器上执行命令、改文件、看日志都更顺）。所以正文里我只保留少量“关键命令”（尤其是安装/恢复/验证），其他地方尽量写成“我怎么弄 + 我怎么确认它成了”。</p>
+<h2>2 安装步骤：最短路径（先能装、能跑、能自救）</h2>
+<p>整个安装的核心是，你先配置一个coding agent，让它去帮你安装龙虾，配置龙虾，拯救龙虾。在低内存 ECS 上，我更推荐你把这些“杂活”交给 Codex / Claude Code（CC）/ OpenCode 去做（它们在服务器上执行命令、改文件、看日志都更顺）。另外这里面codex尤其核心，因为codex是rust，占内存小，量还大，模型还强；</p>
 <h3>2.0 先把远程运维链路搭好（tmux + <a href="https://happy.engineering">Happy</a> + Codex/CC/OpenCode）</h3>
-<p><strong>为什么要先做这个：</strong><br>我后面所有“安装/修复/排障”，核心思路都不是自己手敲命令行，而是让 <strong>Codex / CC / OpenCode</strong> 在服务器上代劳：它们负责跑命令、改配置、看日志、重启服务；我只盯关键点和结果。</p>
+<p><strong>为什么要先做这个：</strong></p>
+<p>我后面所有“安装/修复/排障”，核心思路都不是自己手敲命令行，而是让 <strong>Codex / CC / OpenCode</strong> 在服务器上代劳：它们负责跑命令、改配置、看日志、重启服务；我只盯关键点和结果。</p>
 <p>但云端这套东西还有一个现实问题：<strong>连接会断，OpenClaw（龙虾）本身也可能会挂</strong>。所以我会再加一层“不断线/可救火”的运维底座：</p>
 <ul>
 <li><code>tmux</code>：把远程操作放进 tmux 里，手机切后台/网络抖动/SSH 掉线时，不至于把正在进行的操作和上下文一起断掉。</li>
-<li><a href="https://happy.engineering">Happy</a>：当龙虾挂了、gateway 需要重启、配置需要紧急改一下时，我可以用手机 App 通过 <a href="https://happy.engineering">Happy</a> 去“控制 Codex/CC/OpenCode”，在云机上把龙虾拉起来（比如重启服务、改代理、关掉出问题的组件）。</li>
-<li>TODO：补“重启后自动拉起 tmux + 自动把 Codex/<a href="https://happy.engineering">Happy</a> 的运维环境恢复好”的做法（你原始口述里提到过）。</li>
+<li><a href="https://happy.engineering">Happy</a>：当龙虾挂了、gateway 需要重启、配置需要紧急改一下时，我可以用手机 App 通过 <a href="https://happy.engineering">Happy</a> 去“控制 Codex/CC/OpenCode”，在云机上把龙虾拉起来（比如重启服务、改代理、关掉出问题的组件）。另外我还设置了在机器重启的时候自动创建tmux启动codex，确保我有一个入口继续操作</li>
 </ul>
 <p><strong>工具与模型怎么选（我自己的经验）：</strong></p>
 <ul>
 <li>工具层面：Codex 之外，你也可以用 <strong>Claude Code（CC）</strong>、<strong>OpenCode</strong> 这类 CLI 方案配合使用（无桌面/手机端都很方便）。</li>
 <li>模型层面：你当然可以接入一些免费/便宜的模型（比如 Kimi、GLM-5、MiniMax）来做“轻量活”；但在我这里，<strong>关键链路最好用 SOTA</strong>（比如 Codex 或 Claude Code 这类），因为低内存 + 弱网络 + 真实系统环境，容错能力很重要，省下来的时间往往比省下来的 token 更值钱。</li>
-<li>Codex 这边我更推荐 <strong>Device Mode</strong> 做授权（无桌面最省事）。  <ul>
-<li>TODO：补 Codex 安装命令与 Device Mode 截图/步骤（你当时口述里提到“这里补截图”）。</li>
-</ul>
-</li>
-<li><a href="https://happy.engineering">Happy</a> 这边我主要用来做“手机端不断线的运维入口”，和 tmux 配合效果最好。  <ul>
-<li>TODO：<a href="https://happy.engineering">Happy</a> 的具体安装/用途/链接</li>
-</ul>
-</li>
+<li>Codex 这边我更推荐 <strong>Device Mode</strong> 做授权（无桌面最省事）。</li>
+<li><a href="https://happy.engineering">Happy</a> 这边我主要用来做“手机端不断线的运维入口”，和 tmux 配合效果最好。</li>
 </ul>
 <hr>
 <h3>2.1 先打通网络：代理 + <code>HTTP(S)_PROXY</code></h3>
-<p><strong>为什么：</strong><br>你后面会遇到 Git clone、npm、Telegram 媒体下载、甚至一些站点访问。网络没打通，所有问题会叠在一起，排到最后很痛苦。</p>
+<p><strong>为什么：</strong></p>
+<p>在国内的ECS上面玩，最大的问题就是网络问题了，你后面会遇到 Git clone、npm、Telegram 媒体下载、甚至一些站点访问。网络没打通，所有问题会叠在一起，排到最后很痛苦。</p>
 <p><strong>我一般这么弄：</strong></p>
 <ul>
-<li>在服务器上装好 Clash（或你习惯的代理），并确保本地监听端口可用（例如 <code>127.0.0.1:7890</code>）。</li>
+<li>在服务器上装好 Clash（让前面那一步的coding agent帮你装），并确保本地监听端口可用（例如 <code>127.0.0.1:7890</code>）。</li>
 <li>关键不是“你设置了代理”，而是：<strong>npm / git / Telegram 媒体下载，都稳定走同一条出站路径</strong>。</li>
 <li>如果你用 Codex / CC / OpenCode：直接让它在服务器上装代理、写环境变量、并做连通性验证即可。</li>
 </ul>
-<p>（手动的话，通常只要把代理写进当前会话/服务环境即可）</p>
-<pre><code class="language-bash">export HTTPS_PROXY=http://127.0.0.1:7890
-export HTTP_PROXY=http://127.0.0.1:7890
-</code></pre>
-<blockquote>
-<p>TODO：如果你实际用的是 SOCKS5（例如 <code>socks5h://...</code>），这里按你的最终配置定稿</p>
-</blockquote>
 <p><strong>怎么判断外网通了（任选其一）：</strong></p>
 <ul>
 <li><code>curl -I https://registry.npmjs.org/</code> 能返回 HTTP 响应头；</li>
@@ -250,9 +231,11 @@ export HTTP_PROXY=http://127.0.0.1:7890
 <li>代理“有时生效有时不生效”：优先检查进程实际拿到的环境变量是否一致；必要时把 proxy 写进对应服务/应用自己的配置里，而不是只靠 shell 里的 <code>export</code>。</li>
 </ul>
 <hr>
-<h3>2.2 安装 OpenClaw（2G 避坑版：固定版本 + 去 optional）</h3>
-<p><strong>我遇到的典型坑：</strong><br>按官方方式（无论 npm 还是 curl）在 2G 机器上装，有概率出现 <strong>RAM 99% → 机器卡死 → 只能重启</strong>。</p>
-<p>先说明一下：<strong>官方/社区其实已经有一堆安装指令</strong>，正常情况下你完全可以先照着跑（甚至很多机器一次就能装好）。<br>但我自己当时的经验是：至少在 <strong>2026-02-19</strong> 这个时间点，我在 <strong>2G 内存</strong> ECS 上反复尝试安装，基本都会卡到 OOM（装到一半机器直接不响应，只能重启）。</p>
+<h3>2.2 安装 OpenClaw：2G 避坑版（固定版本 + 去 optional）</h3>
+<p><strong>我遇到的典型坑：</strong></p>
+<p>按官方方式（无论 npm 还是 curl）在 2G 机器上装，会出现 <strong>RAM 99% → 机器卡死 → 只能重启</strong>。</p>
+<p>先说明一下：<strong>官方/社区其实已经有一堆安装指令</strong>，正常情况下你完全可以先照着跑（甚至很多机器一次就能装好）。
+但我自己当时的经验是：至少在 <strong>2026-02-19</strong> 这个时间点，我在 <strong>2G 内存</strong> ECS 上反复尝试安装，基本都会卡到 OOM（装到一半机器直接不响应，只能重启）。</p>
 <p>这里补一个“卡死到底卡在哪”的细节：我当时让 Codex 跟着安装输出和 npm 日志去定位，最后发现机器最容易死在某些依赖的 <strong><code>postinstall</code></strong> 阶段——尤其是安装本地推理相关的组件时（我当时看到最明显的是 <code>node-llama-cpp</code> / llama.cpp 这一类）。这种依赖要么会下载较大的文件，要么会跑原生编译/构建脚本，对 <strong>2G 内存 + 弱网络</strong> 特别不友好：一旦触发重试或并发，内存就会被顶满。</p>
 <p>所以我最后才收敛出一条“2G 生存版”的兜底路径：<strong>清残留 + 固定到已验证版本 + 安装时去掉 optional 依赖 + 放宽 peer dependency 检查</strong>。</p>
 <p>先解释一下我为什么这么装（这部分我认为比“抄命令”更重要）：</p>
@@ -272,7 +255,7 @@ export HTTP_PROXY=http://127.0.0.1:7890
 <p><strong>我当时是这么做的：</strong></p>
 <p>建议顺序是：</p>
 <ol>
-<li>先按官方/社区的安装方式试一次（很多机器是能一次成功的）。  </li>
+<li>先按官方/社区的安装方式试一次（很多机器是能一次成功的）。</li>
 <li>如果你在 2G 上装到 OOM 卡死/反复失败，再用下面这条“2G 生存版”兜底。</li>
 </ol>
 <p>下面这些操作我建议都让 Codex / CC / OpenCode 在 tmux 里执行（你只盯着“有没有装成/有没有跑通”就行）。如果你手动做，也按这个顺序来。</p>
@@ -302,16 +285,15 @@ export HTTP_PROXY=http://127.0.0.1:7890
 <p><strong>如果翻车了：</strong></p>
 <ul>
 <li>报 <code>ENOTEMPTY</code>（目录非空导致卸载/覆盖失败）：按上面的残留清理再来一次。</li>
-<li>你装 <code>latest</code> 失败：我这边遇到过 <code>openclaw@2026.2.21-2</code> 在 <strong>Node 22</strong> 环境触发 <code>@discordjs/opus</code> 的预编译缺失，回退编译又受网络波动影响导致中断。  <ul>
-<li>处理：先用我上面的“固定版本命令”跑通；如果你必须升级，再单独开一节做升级验证。  </li>
-<li>TODO：补你这台 ECS 的 Node 版本（我记录里当时是 <code>node@22.22.0</code>）以及是否要建议读者用 Node 20 LTS 做一次“省心升级”。</li>
+<li>你装 <code>latest</code> 失败：我这边遇到过 <code>openclaw@2026.2.21-2</code> 在 <strong>Node 22</strong> 环境触发 <code>@discordjs/opus</code> 的预编译缺失，回退编译又受网络波动影响导致中断。<ul>
+<li>处理：先用我上面的“固定版本命令”跑通；如果你必须升级，再单独开一节做升级验证。</li>
 </ul>
 </li>
 </ul>
 <hr>
-<h3>2.3 跑通 Telegram：最小可用 + 多会话管理</h3>
+<h3>2.3 Telegram：先跑通，再谈多会话管理</h3>
 <p>我建议你先把目标定到“<strong>私聊能正常收发</strong>”，再去做群聊/多会话隔离。因为群聊往往会引入 allowlist、权限策略等变量，让你误判成“机器人坏了”。</p>
-<h4>A. 先确保 Telegram 网络链路稳定（尤其是发图）</h4>
+<h4>2.3.1 先把 Telegram 的网络链路搞稳（尤其是发图）</h4>
 <p>我遇到过一个很典型的问题：文字能发，但发图后助手看不到图片，日志会出现 <code>MediaFetchError</code>。最后的关键修复是：<strong>把 Telegram 通道的 proxy 显式写死</strong>，别只靠系统环境变量。</p>
 <p>**我当时这么修：**在 <code>/root/.openclaw/openclaw.json</code> 里加入（或合并）：</p>
 <pre><code class="language-json">{
@@ -335,14 +317,14 @@ export HTTP_PROXY=http://127.0.0.1:7890
 <ul>
 <li>仍然偶发失败：优先检查本机 Clash 端口是否真的可用、以及是否存在 IPv6 路径抖动（上面 <code>autoSelectFamily: false</code> 就是我用来压这个抖动的）。</li>
 </ul>
-<h4>B. 多会话/多主题管理（避免“所有聊天都糊成一团”）</h4>
+<h4>2.3.2 多会话/多主题管理（避免“所有聊天都糊成一团”）</h4>
 <p>我比较推荐两种方式（二选一）：</p>
 <ul>
 <li><strong>Telegram 频道/群 + 邀机器人 + 用主题/@ 做隔离</strong>：不同主题对应不同上下文，减少串台。</li>
 <li><strong>用 Discord 做隔离</strong>：把“工作流讨论”和“日常闲聊”拆开（更干净）。</li>
 </ul>
 <hr>
-<h3>2.4 2G 下的浏览器能力：别在 ECS 装 Chrome，换 browserless / Web Fetch</h3>
+<h3>2.4 浏览器能力：browserless + Web Fetch（2G 友好）</h3>
 <p>对 Agent 来说，“能抓网页内容”和“能像人一样打开网页”其实是很关键的两类能力：前者适合做资料检索/核查，后者适合做动态页面、需要点击/滚动/截图的任务。很多时候你以为自己只需要一个聊天机器人，但真正跑起来会发现：<strong>Web Fetch + 浏览器能力</strong>经常才是把任务跑通的关键。</p>
 <p>但在 2G ECS 上本地装 Chrome/Chromium + Playwright，我个人不推荐：太吃内存，稳定性也更差。</p>
 <p>我的做法是把“重浏览器”从 ECS 上挪走：用 <a href="https://www.browserless.io/">browserless.io</a> 这种托管浏览器当替代（必要时再配合 Web Fetch 做轻量抓取）。我写本文时看到它有免费额度（约 1000 次/月，具体以官网为准），足够你先把链路跑通。</p>
@@ -358,34 +340,29 @@ export HTTP_PROXY=http://127.0.0.1:7890
 </ul>
 <p><strong>如果翻车：</strong></p>
 <ul>
-<li>报 <code>timed out after 1500ms</code>：我遇到过“browserless 实际可用，但被 1500ms 的硬编码超时误判”的情况。  <ul>
+<li>报 <code>timed out after 1500ms</code>：我遇到过“browserless 实际可用，但被 1500ms 的硬编码超时误判”的情况。<ul>
 <li>处理：我单独记了一份排查记录（包含临时热修思路与回归检查）：<code>/Users/breeze/personal/ai-video/knowledge-base/30_Resources/OpenClaw/browserless-timeout-1500ms-fix-2026-02-25.md</code></li>
 </ul>
 </li>
-<li>能访问但截图空白/加载不全：优先排查代理链路是否稳定（和 2.1/2.3 的思路类似），以及把超时参数调大再试。</li>
+<li>能访问但截图空白/加载不全：优先排查代理链路是否稳定（和前面“网络”“Telegram”那两节的思路类似），以及把超时参数调大再试。</li>
 </ul>
 <hr>
-<h2>3) 真实场景：我现在用它做什么</h2>
-<p>这一节我想写得更“像人”一点：不是为了证明它有多强，而是告诉你它在我这里为什么有价值。</p>
+<h2>3 真实场景：我现在用它做什么</h2>
 <h3>3.1 个人知识库（PARA）+ Git 自动推送/多端同步</h3>
-<p>以前我收藏内容很散：Apple Notes、微信收藏、各种 App 里。现在我在 ECS 上做了一个 PARA 结构的文件系统，把看到的内容丢进去，再让它帮我做一些整理。配上 Git 之后，多端同步也更顺。</p>
-<blockquote>
-<p>TODO：补你实际的目录结构示例（PARA：Projects/Areas/Resources/Archive）以及“自动推送”的最小脚本/流程。</p>
-</blockquote>
+<p>以前我收藏内容很散：Apple Notes、微信收藏、各种 App 里。现在我在 ECS 上做了一个 PARA 结构的文件系统，把看到的内容丢进去，再让它帮我做一些整理。配上 Git 之后，多端同步也更顺。
+现在不管是日常代办，看到的AI咨询，路上想到的电子，都是直接往里面一丢；它就可以按照（PARA：Projects/Areas/Resources/Archive）这四层目录结构帮我分门归类好；而且能自动commit和push；甚至还有自动提醒归类；这一整套的实现都是龙虾自己实现的，我让它装了一个gh的cli（github的），它自己就玩转了；</p>
 <h3>3.2 定时访问与信息核查（check news / polymarket 等）</h3>
-<p>我更喜欢把它当“流程型任务”的执行器：比如定时访问某些站点、核查一条新闻是否属实、或者去 polymarket 看一眼赔率变化。你只需要关心最后输出的结果。</p>
-<blockquote>
-<p>TODO：补 1-2 个你实际跑通的脚本例子（一个快的，一个慢的），并说明触发方式（手动/定时）。</p>
-</blockquote>
-<h3>3.3 听到的一个案例：App Store 开发者的翻译与评论回复</h3>
-<p>线下聚会里听到有人用类似的 agent 去做 App Store release 的多语言翻译、以及批量回复用户评论。每个人的“高频痛点”不一样，但思路是一致的：把重复的流程自动化，让人只做决策。</p>
+<p>我更喜欢把它当“流程型任务”的执行器：比如定时访问某些站点、核查一条新闻是否属实（比如最近看到有自媒体说美国说要在2.23号和24号攻击伊朗，这时候让龙虾自己去polymarket 看一眼赔率变化）。你只需要关心最后输出的结果。通过这种方式就能把你日常看框</p>
+<h3>3.3 围绕个人事项去做</h3>
+<p>线下聚会里听到有人用类似的 agent 去做 App Store release 的多语言翻译、以及批量回复用户评论。每个人的“高频痛点”不一样，但思路是一致的：把自己手上的事情尽可能AI和自动化，让这些</p>
 <hr>
-<h2>4) 一些想法：</h2>
+<h2>4 一些想法</h2>
 <h3>4.1 OpenClaw 更像新时代的“电子宠物”</h3>
 <p>OpenClaw 可能更像一个新时代的<strong>电子宠物</strong>，或者说它把“私人助理”这层帷幕真正拉开了一点点。</p>
 <p>我小时候看《宠物小精灵》的时候，会想象“要是我也能有一只皮卡丘/喷火龙就好了”。你想想那个设定其实特别像今天的 agent：它有一个大脑（你给它什么模型），有一套技能（你能给它装各种能力/插件），然后它会在你的真实生活里帮你跑腿、打怪、升级。</p>
-<p>你给它装技能、让它学会新东西，这件事本身就很像“打怪升级”。甚至你还可以让它去参加比赛——比如我最近就看到社区有人搞过 OpenClaw 相关的作文/创作类活动,然后我也让我的龙虾去参加了，拿了一个86分，不过第一名已经卷到98分去了，不过本身就是个尝试；
-然后有人可能会说，好像装了openclaw也不知道让它干嘛，但是我自己的感受下来，就是上面给它装各种工具，用它去维护我的知识库，看着它提醒我各种事项，感觉还是很不错的，总之感觉还是得先有，有了之后可以尝试适合它的任务就让它去干；本身也是探索和进化的过程；</p>
+<p>你给它装技能、让它学会新东西，这件事本身就很像“打怪升级”。甚至你还可以让它去参加比赛——比如我最近就看到社区有人搞过 OpenClaw 相关的作文/创作类活动（链接：<a href="https://cec.cuimaotech.com/task/task_anix_dark_draft_pending">OpenClaw 作文任务</a>），然后我也让我的龙虾去参加了，拿了一个86分，不过第一名已经卷到98分去了，不过本身就是个尝试；</p>
+<p>然后有人可能会说，好像装了openclaw也不知道让它干嘛，但是我自己的感受下来，就是上面给它装各种工具，用它去维护我的知识库，看着它提醒我各种事项，折腾的感觉也很好，总之感觉还是得先有，有了之后可以尝试适合它的任务就让它去干；本身也是探索和进化的过程；另外大部分的安装我都是让它自己干，只有部分比较难的，我才启动codex去调试安装它；</p>
+<p>如果在玩的过程中，发现这个2g的ecs内存开始限制它的能力了，那就真的有必要给它升级一套身体了！希望下次还能更新到这里</p>
 <h3>4.2 大脑要顶配，成本要分层（顺便说个我踩过的坑）</h3>
 <p>一个好的私人助理，<strong>大脑真的最重要</strong>。很多人觉得“OpenClaw 也就那样，干啥都傻傻的”，我现在的体感是——很可能不是 OpenClaw 的问题，而是你给它配了一个太弱/免费的模型。</p>
 <p>我的建议是分两层：</p>
@@ -401,6 +378,8 @@ export HTTP_PROXY=http://127.0.0.1:7890
 <li>不要把所有定时任务都绑定到同一个会话无限增长；</li>
 <li>失败要有熔断/上限，别无限重试。</li>
 </ul>
+<h3>4.3 产品体验也很重要</h3>
+<p>一开始我也觉得 openclaw 这一套，不就是以前 codex 或者 claude code 直接控制整个计算机？但是当你发现你能用 telegram、discord、钉钉、飞书去连接的时候，就真的不一样了。另外再看看它的 <code>soul.md</code>，原来它的设计里面还有灵魂：当你不再是冷冰冰地让它写代码，而是看着它干各种事情，最后还会跟你说一句晚安的时候——这不就是我们小时候想要的那只皮卡丘吗；</p>
 
       
     
